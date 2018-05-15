@@ -935,13 +935,13 @@ cycle_pointer_style()
 
 /* Keyboard handling */
 
-static void
+void
 send_syscommand2(WPARAM cmd, LPARAM p)
 {
   SendMessage(wnd, WM_SYSCOMMAND, cmd, p);
 }
 
-static void
+void
 send_syscommand(WPARAM cmd)
 {
   SendMessage(wnd, WM_SYSCOMMAND, cmd, ' ');

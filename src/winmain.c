@@ -21,6 +21,7 @@ char * mintty_debug;
 #include "appinfo.h"
 #include "child.h"
 #include "charset.h"
+#include "llkeyhook.h"
 
 #include <locale.h>
 #include <getopt.h>
@@ -2033,6 +2034,9 @@ static struct {
 
     when WM_APP:
       update_available_version(wp);
+
+    when WM_ACTIVATEAPP:
+      ll_keyhook_tell_window_state(wp == TRUE);
 
     when WM_VSCROLL:
       switch (LOWORD(wp)) {
@@ -4135,6 +4139,8 @@ main(int argc, char *argv[])
     argv, &(struct winsize){term_rows, term_cols, term_width, term_height}
   );
 
+  ll_keyhook_install();
+
   // Finally show the window.
   ShowWindow(wnd, show_cmd);
   SetFocus(wnd);
@@ -4161,4 +4167,6 @@ main(int argc, char *argv[])
     }
     child_proc();
   }
+
+  ll_keyhook_uninstall();
 }
